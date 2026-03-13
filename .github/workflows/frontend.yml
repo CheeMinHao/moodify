@@ -20,9 +20,13 @@ jobs:
         with:
           node-version: 24
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd frontend
+          npm install
       - name: Run linter
-        run: npm run lint
+        run: |
+          cd frontend
+          npm run lint
         # If you haven't set up ESLint yet, see https://eslint.org/docs/latest/user-guide/getting-started
 
   security-scan:
@@ -64,8 +68,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: 22
-          cache: yarn
+          node-version: 24
+          cache: npm
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -74,7 +78,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
-        run: yarn install
+        run: npm
 
       - name: Create preview
         uses: expo/expo-github-action/preview@v8
