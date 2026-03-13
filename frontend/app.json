@@ -43,6 +43,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "193eeaae-69f3-4cf9-bc20-f9d6d6a6fcaf"
+      }
+    },
+    "owner": "unihack-moodify"
   }
 }
