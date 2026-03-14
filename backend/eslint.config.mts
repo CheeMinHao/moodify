@@ -8,6 +8,11 @@ export default [
     {
         files: ["**/*.ts"],
         ignores: ["**/*.config.ts"],
+        env: {
+            browser: true,
+            amd: true,
+            node: true,
+        },
         languageOptions: {
             parser: tsParser,
             globals: {

@@ -15,12 +15,12 @@ async function findSongsByTag(tag: string) {
                     {
                         term: {
                             tags: tag.toLowerCase()
-                        }
-                    }
-                ]
-            }
+                        },
+                    },
+                ],
+            },
         },
-        sort: [{ popularity: 'desc' }]
+        sort: [{ popularity: 'desc' }],
     });
 
     return result.hits.hits.map((hit: any) => hit._source);

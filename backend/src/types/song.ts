@@ -10,5 +10,5 @@ export interface SongDocument {
         s3_key: string;
         duration_sec?: number;
         mime_type?: string;
-    }
+    };
 }
