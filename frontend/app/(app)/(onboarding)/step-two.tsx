@@ -9,13 +9,13 @@ import { Colors } from '@/constants/colors';
 import { Theme } from '@/constants/theme';
 
 const OPTIONS = [
-  { id: 'stress', label: 'Daily stress & anxiety', emoji: '🌀' },
+  { id: 'stress', label: 'Stress & anxiety', emoji: '🌀' },
   { id: 'grief', label: 'Grief or loss', emoji: '🕊️' },
   { id: 'depression', label: 'Low mood or depression', emoji: '🌧️' },
-  { id: 'anger', label: 'Anger management', emoji: '🔥' },
+  { id: 'anger', label: 'Anger', emoji: '🔥' },
   { id: 'trauma', label: 'Trauma recovery', emoji: '🌱' },
-  { id: 'sleep', label: 'Sleep & rest issues', emoji: '🌙' },
-  { id: 'general', label: 'General wellness', emoji: '✨' },
+  { id: 'sleep', label: 'Sleep issues', emoji: '🌙' },
+  { id: 'general', label: 'General Wellness', emoji: '✨' },
   { id: 'unsure', label: 'Not sure yet', emoji: '🌫️' },
 ];
 
@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 10,
+    justifyContent: 'center',  
   },
   chip: {
     borderRadius: Theme.radius.full,

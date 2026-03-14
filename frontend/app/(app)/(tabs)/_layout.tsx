@@ -2,6 +2,7 @@ import { Tabs } from 'expo-router';
 import { Text } from 'react-native';
 import { Colors } from '@/constants/colors';
 import { Theme } from '@/constants/theme';
+import { Image } from 'react-native';
 
 function TabIcon({ emoji, focused }: { emoji: string; focused: boolean }) {
   return (
@@ -20,7 +21,7 @@ export default function TabsLayout() {
           backgroundColor: Colors.bg.secondary,
           borderTopColor: Colors.border.subtle,
           borderTopWidth: 1,
-          height: 72,
+          height: 75,
           paddingBottom: 12,
           paddingTop: 8,
         },
@@ -33,6 +34,7 @@ export default function TabsLayout() {
         },
       }}
     >
+      
       <Tabs.Screen
         name="dashboard"
         options={{
@@ -41,17 +43,31 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="search"
+        options={{
+          title: 'Search',
+          tabBarIcon: ({ focused }) => <TabIcon emoji="🔍" focused={focused} />,
+        }}
+      />
+      <Tabs.Screen
         name="library"
         options={{
           title: 'Library',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="🎵" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabIcon emoji="🎶" focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="player"
         options={{
           title: 'Player',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="🎧" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabIcon emoji="💿" focused={focused} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ focused }) => <TabIcon emoji="👤" focused={focused} />,
         }}
       />
     </Tabs>

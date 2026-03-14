@@ -15,18 +15,21 @@ export interface Track {
   coverGradient: [string, string];
 }
 
+const S3 = 'https://moodify-tracks.s3.ap-southeast-2.amazonaws.com';
+
+
 export const Tracks: Track[] = [
   {
     id: '1',
     title: 'Still Waters',
     artist: 'Moodify Ambient',
-    duration: 480,
+    duration: 140931,
     emotions: ['anxious', 'overwhelmed', 'panic'],
     intensity: 'low',
     genre: 'nature',
     description: 'Gentle rain and distant thunder for nervous system reset',
     color: '#A78BFA',
-    audioUrl: 'https://www.soundjay.com/nature/sounds/rain-01.mp3',
+    audioUrl: `${S3}/distant-thunder-rain-ivo-vicic-1-02-20.mp3`,
     coverGradient: ['#A78BFA', '#1E1B4B'],
   },
   {
@@ -39,7 +42,7 @@ export const Tracks: Track[] = [
     genre: 'nature',
     description: 'Soft night sounds to sit with difficult feelings',
     color: '#93C5FD',
-    audioUrl: 'https://www.soundjay.com/nature/sounds/crickets-1.mp3',
+    audioUrl: `${S3}/cricket-ambience-on-mountain-meadow-ivo-vicic-1-02-00.mp3`,
     coverGradient: ['#93C5FD', '#1E3A5F'],
   },
   {
@@ -52,7 +55,7 @@ export const Tracks: Track[] = [
     genre: 'meditation',
     description: 'Grounding tones to release and soften tension',
     color: '#FDA4AF',
-    audioUrl: 'https://www.soundjay.com/nature/sounds/fire-1.mp3',
+    audioUrl: `${S3}/campfire-at-night-soundscape-louder-animals-quieter-campfire.mp3`,
     coverGradient: ['#FDA4AF', '#7F1D1D'],
   },
   {
@@ -65,7 +68,7 @@ export const Tracks: Track[] = [
     genre: 'classical',
     description: 'Warm, uplifting strings for moments of light',
     color: '#FCD34D',
-    audioUrl: 'https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3',
+    audioUrl: `${S3}/happy-background-music-orchestra-loop.mp3`,
     coverGradient: ['#FCD34D', '#92400E'],
   },
   {
@@ -76,9 +79,9 @@ export const Tracks: Track[] = [
     emotions: ['numb', 'anxious', 'sad'],
     intensity: 'low',
     genre: 'binaural',
-    description: '7Hz theta waves for deep emotional processing',
+    description: 'Binaural heta waves for deep emotional processing',
     color: '#6EE7B7',
-    audioUrl: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3',
+    audioUrl: `${S3}/pulse-breath-with-bells_version-1.mp3`,
     coverGradient: ['#6EE7B7', '#064E3B'],
   },
   {
@@ -91,7 +94,7 @@ export const Tracks: Track[] = [
     genre: 'ambient',
     description: 'Immediate grounding for acute distress',
     color: '#C4B5FD',
-    audioUrl: 'https://www.soundjay.com/nature/sounds/ocean-wave-1.mp3',
+    audioUrl: `${S3}/relaxing-ocean-wave.mp3`,
     coverGradient: ['#C4B5FD', '#2E1065'],
   },
   {
@@ -104,7 +107,7 @@ export const Tracks: Track[] = [
     genre: 'nature',
     description: 'Soft birdsong and stream for gentle awakening',
     color: '#6EE7B7',
-    audioUrl: 'https://www.soundjay.com/nature/sounds/birds-1.mp3',
+    audioUrl: `${S3}/forest-ambience-light-birdsong-distant-rooster-vincentmets-1-03-38.mp3`,
     coverGradient: ['#6EE7B7', '#065F46'],
   },
   {
@@ -112,12 +115,12 @@ export const Tracks: Track[] = [
     title: 'Hollow Moon',
     artist: 'Moodify Ambient',
     duration: 720,
-    emotions: ['grieving', 'lonely', 'sad'],
+    emotions: ['grieving', 'lonely', 'sad', 'calm'],
     intensity: 'medium',
     genre: 'ambient',
     description: 'Deep drones to hold grief without rushing it',
     color: '#93C5FD',
-    audioUrl: 'https://www.soundjay.com/misc/sounds/wind-chime-1.mp3',
+    audioUrl: `${S3}/morning-birds-and-windchimes.mp3`,
     coverGradient: ['#93C5FD', '#0C1445'],
   },
 ];
