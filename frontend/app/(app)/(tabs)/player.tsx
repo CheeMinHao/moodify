@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Animated,
+  ScrollView,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
@@ -22,7 +23,6 @@ function formatMs(ms: number): string {
 }
 
 export default function PlayerScreen() {
-  console.log('PlayerScreen mounted'); 
   const { trackId } = useLocalSearchParams<{ trackId?: string }>();
   const { loadAndPlay, togglePlayPause, isPlaying, isLoading, position, duration, currentTrack } =
     useAudio();
@@ -87,7 +87,10 @@ export default function PlayerScreen() {
         style={[styles.bgGlow, { backgroundColor: track.color }]}
       />
 
-      <View style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Back button */}
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
           <BlurView intensity={15} tint="dark" style={styles.backBlur}>
@@ -166,7 +169,7 @@ export default function PlayerScreen() {
             </LinearGradient>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </LinearGradient>
   );
 }
@@ -183,10 +186,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   container: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: Theme.spacing.xl,
     paddingTop: 35,
     paddingBottom: 48,
+    justifyContent: 'space-between',  
   },
   backBtn: {
     alignSelf: 'flex-start',
