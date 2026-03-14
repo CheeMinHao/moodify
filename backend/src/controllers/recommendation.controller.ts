@@ -31,4 +31,3 @@ export async function getRecommendation(req: any, res: any) {
         res.status(500).json({ error: 'internal error' });
     }
 }
-
