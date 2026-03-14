@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 
 type Profile = {
   displayName: string | null;
+  avatarS3Key: string | null;
   preferredGenres: string[];
   therapyGoals: string[];
   onboardingComplete: boolean;
@@ -37,12 +38,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function loadProfile(userId: string) {
     const { data } = await supabase
       .from('profiles')
-      .select('display_name, preferred_genres, therapy_goals, onboarding_complete')
+      .select('display_name, avatar_s3_key, preferred_genres, therapy_goals, onboarding_complete')
       .eq('id', userId)
       .single();
     if (data) {
       setProfile({
         displayName: data.display_name,
+        avatarS3Key: data.avatar_s3_key ?? null,
         preferredGenres: data.preferred_genres ?? [],
         therapyGoals: data.therapy_goals ?? [],
         onboardingComplete: data.onboarding_complete ?? false,
@@ -104,6 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!error) {
       setProfile({
         displayName: data.displayName,
+        avatarS3Key: profile?.avatarS3Key ?? null,
         preferredGenres: data.preferredGenres,
         therapyGoals: data.therapyGoals,
         onboardingComplete: true,
