@@ -151,14 +151,14 @@ export default function ProfileScreen() {
 
         {/* Stats */}
         <View style={styles.statsRow}>
-          <View style={styles.statCard}>
+          <TouchableOpacity style={styles.statCard} activeOpacity={0.7} onPress={() => router.push('/(app)/calendar')}>
             <Text style={styles.statNumber}>{sessionCount}</Text>
             <Text style={styles.statLabel}>Sessions</Text>
-          </View>
-          <View style={styles.statCard}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.statCard} activeOpacity={0.7} onPress={() => router.push('/(app)/calendar')}>
             <Text style={styles.statNumber}>{streak}</Text>
             <Text style={styles.statLabel}>Day streak</Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* Mood history */}
