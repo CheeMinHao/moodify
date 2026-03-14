@@ -13,6 +13,7 @@ import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Avatar } from "@/components/ui/Avatar";
 import { useAuth } from "@/context/auth";
+import { getSignedUrl } from "@/lib/media";
 import { MoodOrb } from "@/components/ui/MoodOrb";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { GradientButton } from "@/components/ui/GradientButton";
@@ -41,6 +42,7 @@ export default function DashboardScreen() {
   const [note, setNote] = useState("");
   const [aiReply, setAiReply] = useState("");
   const [loadingReply, setLoadingReply] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -51,6 +53,12 @@ export default function DashboardScreen() {
     }
     load();
   }, []);
+
+  useEffect(() => {
+    if (profile?.avatarS3Key) {
+      getSignedUrl(profile.avatarS3Key, 3600).then(setAvatarUrl);
+    }
+  }, [profile?.avatarS3Key]);
 
   const handleEmotionSelect = useCallback(
     async (emotion: Emotion) => {
@@ -174,7 +182,7 @@ Be human, warm, and grounding. Do not suggest professional help. No lists, no he
           <Text style={styles.logo}>moodify</Text>
           <Avatar
             size={36}
-            uri={profile?.avatarS3Key ?? null}
+            uri={avatarUrl}
             onPress={() => router.push("/(app)/profile")}
           />
         </View>

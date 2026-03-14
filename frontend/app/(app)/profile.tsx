@@ -1,20 +1,31 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Linking, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Linking, Platform, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from '@/constants/colors';
 import { Theme } from '@/constants/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
 import { router } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
 import { useAuth } from '@/context/auth';
 import { Avatar } from '@/components/ui/Avatar';
+import { uploadImage, getSignedUrl } from '@/lib/media';
+import { supabase } from '@/lib/supabase';
 
 export default function ProfileScreen() {
-  const { profile, user, signOut } = useAuth();
+  const { profile, user, signOut, refreshProfile } = useAuth();
   const [streak, setStreak] = useState(0);
+  const [avatarUri, setAvatarUri] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     updateStreak();
   }, []);
+
+  useEffect(() => {
+    if (profile?.avatarS3Key) {
+      getSignedUrl(profile.avatarS3Key, 3600).then(setAvatarUri);
+    }
+  }, [profile?.avatarS3Key]);
 
   async function updateStreak() {
     const today = new Date().toDateString();
@@ -50,13 +61,54 @@ export default function ProfileScreen() {
     await signOut();
   }
 
+  async function pickImage() {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') return;
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+    });
+
+    if (result.canceled) return;
+
+    const uri = result.assets[0].uri;
+    setAvatarUri(uri);
+    setUploading(true);
+
+    try {
+      const path = await uploadImage(uri, `${user!.id}/avatar`);
+      await supabase.from('profiles').update({ avatar_s3_key: path }).eq('id', user!.id);
+      await refreshProfile();
+    } finally {
+      setUploading(false);
+    }
+  }
+
   return (
     <LinearGradient colors={['#0D0F1A', '#11122A', '#0D0F1A']} style={styles.bg}>
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
 
+        {/* Back button */}
+        <TouchableOpacity onPress={() => router.back()} activeOpacity={0.7} style={styles.backButton}>
+          <Text style={styles.backText}>← Back</Text>
+        </TouchableOpacity>
+
         {/* Avatar */}
         <View style={styles.avatarSection}>
-          <Avatar size={88} uri={profile?.avatarS3Key ?? null} />
+          <View>
+            <Avatar size={88} uri={avatarUri ?? profile?.avatarS3Key ?? null} onPress={pickImage} />
+            {uploading && (
+              <View style={styles.avatarOverlay}>
+                <ActivityIndicator color={Colors.text.primary} />
+              </View>
+            )}
+          </View>
+          <TouchableOpacity onPress={pickImage} activeOpacity={0.7}>
+            <Text style={styles.editAvatarText}>Edit profile picture</Text>
+          </TouchableOpacity>
           <Text style={styles.name}>{profile?.displayName ?? 'Your name'}</Text>
           <Text style={styles.email}>{user?.email}</Text>
           <Text style={styles.joined}>Healing since March 2025</Text>
@@ -174,6 +226,28 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   bg: { flex: 1 },
+  backButton: {
+    marginBottom: Theme.spacing.md,
+  },
+  backText: {
+    fontSize: Theme.fontSize.md,
+    fontFamily: Theme.fontFamily.body,
+    color: Colors.accent.lavender,
+  },
+  avatarOverlay: {
+    position: 'absolute',
+    top: 0, left: 0, right: 0, bottom: 0,
+    borderRadius: 44,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  editAvatarText: {
+    fontSize: Theme.fontSize.sm,
+    fontFamily: Theme.fontFamily.body,
+    color: Colors.accent.lavender,
+    marginTop: 4,
+  },
   container: {
     paddingHorizontal: Theme.spacing.lg,
     paddingTop: 60,
