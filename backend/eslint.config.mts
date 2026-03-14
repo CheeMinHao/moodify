@@ -8,16 +8,16 @@ export default [
     {
         files: ["**/*.ts"],
         ignores: ["**/*.config.ts"],
-        env: {
-            browser: true,
-            amd: true,
-            node: true,
-        },
         languageOptions: {
             parser: tsParser,
             globals: {
                 process: "readonly",
                 console: "readonly",
+                module: "readonly",
+                require: "readonly",
+                __dirname: "readonly",
+                __filename: "readonly",
+                exports: "readonly",
             },
         },
         plugins: {
