@@ -1,9 +1,9 @@
-const { Client } = require("@elastic/elasticsearch");
-import { env } from "../config/env";
+const { Client } = require('@elastic/elasticsearch');
+import { env } from '../config/env';
 
 const elasticClient = new Client({
   node: env.elasticNode
-})
+});
 
 async function findSongsByTag(tag: string) {
   const result = await elasticClient.search({
@@ -20,13 +20,13 @@ async function findSongsByTag(tag: string) {
         ]
       }
     },
-    sort: [{ popularity: "desc" }]
-  })
+    sort: [{ popularity: 'desc' }]
+  });
 
   return result.hits.hits.map((hit: any) => hit._source)
-}
+};
 
 module.exports = {
   elasticClient,
   findSongsByTag
-}
+};

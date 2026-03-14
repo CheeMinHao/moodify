@@ -11,4 +11,4 @@ export interface SongDocument {
     duration_sec?: number
     mime_type?: string
   }
-}
+};
