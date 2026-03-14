@@ -9,7 +9,7 @@ type AvatarProps = {
 export function Avatar({ size, uri, onPress }: AvatarProps) {
   const image = (
     <Image
-      source={uri ? { uri } : require('@/assets/images/placeholder-pfp.jpg')}
+      source={uri ? { uri } : require('@/assets/images/placeholder-pfp.png')}
       style={{ width: size, height: size, borderRadius: size / 2 }}
     />
   );
