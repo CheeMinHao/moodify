@@ -39,7 +39,7 @@ export default function StepThree() {
 
     await AsyncStorage.setItem('moodify_onboarded', 'true');
     setLoading(false);
-    router.replace('/(tabs)/dashboard');
+    router.replace('/(app)/(tabs)/dashboard');
   }
 
   return (
@@ -57,7 +57,7 @@ export default function StepThree() {
           <Text style={styles.emoji}>🎵</Text>
           <Text style={styles.title}>How do you like{'\n'}to listen?</Text>
           <Text style={styles.subtitle}>
-            We'll use this to personalise every recommendation for you.
+            We&apos;ll use this to personalise every recommendation for you.
           </Text>
 
           <View style={styles.options}>
