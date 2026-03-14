@@ -6,20 +6,19 @@ async function getRecommendation(req: any, res: any) {
         const tag = req.query.tag;
 
         if (!tag) {
-            return res.status(400).json({ error: 'tag query required' })
-        };
+            return res.status(400).json({ error: 'tag query required' });
+        }
 
         const songs = await findSongsByTag(tag);
 
         if (!songs.length) {
-            return res.status(404).json({ error: 'No songs found' })
-        };
+            return res.status(404).json({ error: 'No songs found' });
+        }
 
         const song = songs[Math.floor(Math.random() * songs.length)];
 
         const streamUrl = await createSignedAudioUrl(
-            song.audio.s3_bucket,
-            song.audio.s3_key
+            song.audio.s3_bucket, song.audio.s3_key
         );
 
         res.json({
@@ -27,14 +26,13 @@ async function getRecommendation(req: any, res: any) {
             title: song.title,
             artist: song.artist,
             tags: song.tags,
-            streamUrl
+            streamUrl,
         });
-
     } catch (err) {
         console.error(err)
         res.status(500).json({ error: 'internal error' })
-    };
-};
+    }
+}
 
 module.exports = {
     getRecommendation

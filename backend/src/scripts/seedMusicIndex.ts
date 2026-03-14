@@ -14,7 +14,7 @@ interface SongDocument {
         duration_sec?: number;
         mime_type?: string;
     };
-};
+}
 
 const client = new Client({
     node: env.musicIndex,
@@ -133,6 +133,6 @@ async function main(): Promise<void> {
         console.error('Failed to seed Elasticsearch:', error);
         process.exit(1);
     }
-};
+}
 
 main();
