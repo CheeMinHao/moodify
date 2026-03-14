@@ -1,7 +1,7 @@
 const { findSongsByTag } = require('../services/elastic.service');
 const { createSignedAudioUrl } = require('../services/s3.service');
 
-async function getRecommendation(req: any, res: any) {
+export async function getRecommendation(req: any, res: any) {
     try {
         const tag = req.query.tag;
 
@@ -32,6 +32,3 @@ async function getRecommendation(req: any, res: any) {
     }
 }
 
-module.exports = {
-    getRecommendation,
-};
