@@ -38,8 +38,11 @@ export async function getRecommendations(req: any, res: any) {
     try {
         const tag = req.query.tag;
 
-        const songs = tag ? tag !== '' ? await findSongsByTag(tag)
-            : await findAllSongs() : await findAllSongs();
+        const songs =
+            tag ? tag !== ''
+                ? await findSongsByTag(tag)
+                : await findAllSongs() : await findAllSongs()
+            ;
 
         if (!songs.length) {
             return res.status(404).json({ error: 'No songs found' });
@@ -62,7 +65,6 @@ export async function getRecommendations(req: any, res: any) {
             })
         );
         res.json(results);
-
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'internal error' });
