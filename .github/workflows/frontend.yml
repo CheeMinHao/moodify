@@ -46,9 +46,7 @@ jobs:
         with:
           node-version: 24
       - name: Install dependencies
-        run: |
-          cd frontend
-          npm install
+        run: npm install
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
