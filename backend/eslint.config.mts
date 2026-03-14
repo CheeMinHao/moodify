@@ -13,6 +13,11 @@ export default [
             globals: {
                 process: "readonly",
                 console: "readonly",
+                module: "readonly",
+                require: "readonly",
+                __dirname: "readonly",
+                __filename: "readonly",
+                exports: "readonly",
             },
         },
         plugins: {
