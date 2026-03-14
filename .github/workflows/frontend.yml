@@ -94,4 +94,7 @@ jobs:
         run: npm install
 
       - name: Create preview
+        env:
+          EXPO_PUBLIC_SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}
+          EXPO_PUBLIC_SUPABASE_KEY: ${{ vars.EXPO_PUBLIC_SUPABASE_KEY }}
         run: eas update --auto --json --non-interactive
