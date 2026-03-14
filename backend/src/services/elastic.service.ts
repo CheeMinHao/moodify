@@ -3,6 +3,9 @@ import { env } from '../config/env';
 
 const elasticClient = new Client({
     node: env.elasticNode,
+    auth: {
+        apiKey: env.elasticApiKey,
+    }
 });
 
 async function findSongsByTag(tag: string) {
