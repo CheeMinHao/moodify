@@ -17,9 +17,7 @@ async function getRecommendation(req: any, res: any) {
 
         const song = songs[Math.floor(Math.random() * songs.length)];
 
-        const streamUrl = await createSignedAudioUrl(
-            song.audio.s3_bucket, song.audio.s3_key
-        );
+        const streamUrl = await createSignedAudioUrl(song.audio.s3_bucket, song.audio.s3_key);
 
         res.json({
             id: song.id,
@@ -32,7 +30,7 @@ async function getRecommendation(req: any, res: any) {
         console.error(err)
         res.status(500).json({ error: 'internal error' })
     }
-}
+};
 
 module.exports = {
     getRecommendation

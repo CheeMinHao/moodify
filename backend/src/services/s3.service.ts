@@ -7,7 +7,7 @@ const s3Client = new S3Client({
     credentials: {
         accessKeyId: env.awsAccessKeyId,
         secretAccessKey: env.awsSecretAccessKey,
-    }
+    },
 });
 
 async function createSignedAudioUrl(bucket: string, key: string) {
@@ -20,5 +20,5 @@ async function createSignedAudioUrl(bucket: string, key: string) {
 }
 
 module.exports = {
-    createSignedAudioUrl
+    createSignedAudioUrl,
 };

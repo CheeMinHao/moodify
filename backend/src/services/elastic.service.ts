@@ -28,5 +28,5 @@ async function findSongsByTag(tag: string) {
 
 module.exports = {
 	elasticClient,
-	findSongsByTag
+	findSongsByTag,
 };
