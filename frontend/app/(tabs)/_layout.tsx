@@ -2,6 +2,7 @@ import { Tabs } from 'expo-router';
 import { Text } from 'react-native';
 import { Colors } from '@/constants/colors';
 import { Theme } from '@/constants/theme';
+import { Image } from 'react-native';
 
 function TabIcon({ emoji, focused }: { emoji: string; focused: boolean }) {
   return (
@@ -20,7 +21,7 @@ export default function TabsLayout() {
           backgroundColor: Colors.bg.secondary,
           borderTopColor: Colors.border.subtle,
           borderTopWidth: 1,
-          height: 72,
+          height: 75,
           paddingBottom: 12,
           paddingTop: 8,
         },
@@ -33,25 +34,53 @@ export default function TabsLayout() {
         },
       }}
     >
+      
       <Tabs.Screen
         name="dashboard"
         options={{
           title: 'Home',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="🏠" focused={focused} />,
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/images/home.png')}
+              style={{ width: 24, height: 24, opacity: focused ? 1 : 0.5 }}
+            />
+          ),        
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: 'Search',
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/images/home.png')}
+              style={{ width: 24, height: 24, opacity: focused ? 1 : 0.5 }}
+            />
+          ),        
         }}
       />
       <Tabs.Screen
         name="library"
         options={{
           title: 'Library',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="🎵" focused={focused} />,
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/images/music.png')}
+              style={{ width: 24, height: 24, opacity: focused ? 1 : 0.5 }}
+            />
+          ),   
         }}
       />
       <Tabs.Screen
         name="player"
         options={{
           title: 'Player',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="🎧" focused={focused} />,
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require('@/assets/images/headphone.png')}
+              style={{ width: 24, height: 24, opacity: focused ? 1 : 0.5 }}
+            />
+          ),        
         }}
       />
     </Tabs>

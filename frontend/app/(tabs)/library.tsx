@@ -120,7 +120,9 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   filterScroll: { 
-    height:52, flexShrink: 0,  },
+    height:50, 
+    flexShrink: 0,  
+  },
   filterRow: {
     paddingHorizontal: Theme.spacing.lg,
     gap: 8,

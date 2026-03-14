@@ -17,5 +17,6 @@ export default function Index() {
 // /(onboarding)/step-two
 // /(onboarding)/step-three
 // /(tabs)/dashboard
+// /(tabs)/search
 // /(tabs)/library
 // /(tabs)/player

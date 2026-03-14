@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: Theme.spacing.xl,
-    paddingTop: 60,
+    paddingTop: 35,
     paddingBottom: 48,
   },
   backBtn: {
