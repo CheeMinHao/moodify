@@ -48,7 +48,8 @@ export default function CalendarScreen() {
     if (entriesRes.data) {
       const grouped: Record<string, DayEntry> = {};
       for (const entry of entriesRes.data) {
-        const dateKey = entry.created_at.slice(0, 10); // YYYY-MM-DD
+        const d = new Date(entry.created_at);
+        const dateKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         const emotion = Emotions.find((e) => e.id.toLowerCase() === entry.emotion.toLowerCase());
         // Last entry per day wins (we iterate ascending, so later entries overwrite)
         grouped[dateKey] = {

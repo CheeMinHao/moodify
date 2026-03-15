@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   TextInput,
+  Animated,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -23,6 +24,7 @@ import { Theme } from "@/constants/theme";
 import { Emotions, Emotion, EmotionTagMap } from "@/constants/emotions";
 import { Tracks } from "@/constants/tracks";
 import { getRecommendation, generateEmotionParagraph, Song } from "@/lib/api";
+import { invalidateJournalStats } from "@/hooks/use-journal-stats";
 
 function getGreeting(): string {
   const h = new Date().getHours();
@@ -48,6 +50,16 @@ export default function DashboardScreen() {
   const [aiReply, setAiReply] = useState("");
   const [loadingReply, setLoadingReply] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const hintOpacity = useRef(new Animated.Value(0.5)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(hintOpacity, { toValue: 1, duration: 2000, useNativeDriver: true }),
+        Animated.timing(hintOpacity, { toValue: 0.4, duration: 2000, useNativeDriver: true }),
+      ])
+    ).start();
+  }, []);
 
   useEffect(() => {
     async function load() {
@@ -132,6 +144,26 @@ export default function DashboardScreen() {
 //     }
 //   }
 
+  async function handlePanic() {
+    try {
+      const tags = EmotionTagMap['panic'];
+      const tag = tags[Math.floor(Math.random() * tags.length)];
+      const song = await getRecommendation(tag);
+      router.push({
+        pathname: "/(app)/(tabs)/player",
+        params: {
+          trackId: song.id,
+          streamUrl: song.streamUrl,
+          title: song.title,
+          artist: song.artist,
+          tags: JSON.stringify(song.tags),
+        },
+      });
+    } catch (err) {
+      console.error("Panic recommendation failed:", err);
+    }
+  }
+
   async function handleListenNow() {
     if (!recommendation || !selectedEmotion || !user) return;
     setGeneratingMsg(true);
@@ -148,6 +180,8 @@ export default function DashboardScreen() {
       setGeneratingMsg(false);
       return;
     }
+
+    invalidateJournalStats();
 
     // Generate emotion paragraph if user wrote a note
     let emotionMessage = '';
@@ -211,7 +245,11 @@ export default function DashboardScreen() {
         </View>
 
         {/* Orb */}
-        <View style={styles.orbContainer}>
+        <TouchableOpacity
+          style={styles.orbContainer}
+          activeOpacity={0.85}
+          onPress={handlePanic}
+        >
           <MoodOrb
             color={selectedEmotion?.color ?? Colors.accent.lavender}
             gradientColors={
@@ -219,13 +257,20 @@ export default function DashboardScreen() {
             }
             size={160}
           />
+          
+          <Animated.Text style={[
+            styles.orbHint,
+            { opacity: hintOpacity, color: selectedEmotion?.color ?? Colors.accent.lavender },
+          ]}>
+            Tap for instant calm
+          </Animated.Text>
           {selectedEmotion && (
             <View style={styles.emotionLabel}>
               <Text style={styles.emotionEmoji}>{selectedEmotion.emoji}</Text>
               <Text style={styles.emotionName}>{selectedEmotion.label}</Text>
             </View>
           )}
-        </View>
+        </TouchableOpacity>
 
         {/* Emotion grid */}
         <Text style={styles.sectionLabel}>Select your emotion</Text>
@@ -422,6 +467,13 @@ const styles = StyleSheet.create({
     fontSize: Theme.fontSize.lg,
     fontFamily: Theme.fontFamily.display,
     color: Colors.text.primary,
+  },
+  orbHint: {
+    fontSize: Theme.fontSize.xl,
+    fontFamily: Theme.fontFamily.body,
+    color: Colors.accent.lavender,
+    marginTop: Theme.spacing.sm,
+    letterSpacing: 0.5,
   },
   sectionLabel: {
     fontSize: Theme.fontSize.sm,
