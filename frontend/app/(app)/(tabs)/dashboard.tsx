@@ -20,7 +20,7 @@ import { GradientButton } from "@/components/ui/GradientButton";
 import { supabase } from "@/lib/supabase";
 import { Colors } from "@/constants/colors";
 import { Theme } from "@/constants/theme";
-import { Emotions, Emotion } from "@/constants/emotions";
+import { Emotions, Emotion, EmotionTagMap } from "@/constants/emotions";
 import { Tracks } from "@/constants/tracks";
 import { getRecommendation, generateEmotionParagraph, Song } from "@/lib/api";
 
@@ -75,7 +75,9 @@ export default function DashboardScreen() {
       setLoadingRec(true);
 
       try {
-        const song = await getRecommendation(emotion.id);
+        const tags = EmotionTagMap[emotion.id];
+        const tag = tags[Math.floor(Math.random() * tags.length)];
+        const song = await getRecommendation(tag);
         setRecommendedSong(song);
         setRecommendation({
           message: `We found "${song.title}" by ${song.artist} for you.`,
