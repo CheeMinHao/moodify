@@ -17,7 +17,7 @@ interface SongDocument {
 }
 
 const client = new Client({
-    node: env.musicIndex,
+    node: env.elasticNode,
     auth: {
         apiKey: env.elasticApiKey,
     },
@@ -58,7 +58,67 @@ const songs: SongDocument[] = [
         popularity: 63,
         audio: {
             s3_bucket: S3_MUSIC_BUCKET,
-            s3_key: 'wind-chimes-light-rain-thunder_aygGqqyO.mp3',
+            s3_key: 'morning-birds-and-windchimes.mp3',
+            mime_type: 'audio/mpeg',
+        },
+    },
+    {
+        id: 'song_00004',
+        title: 'Campfire Vibes',
+        artist: 'Commercial',
+        tags: ['acoustic', 'calm', 'fire', 'forest'],
+        popularity: 63,
+        audio: {
+            s3_bucket: S3_MUSIC_BUCKET,
+            s3_key: 'campfire-at-night-soundscape-louder-animals-quieter-campfire.mp3',
+            mime_type: 'audio/mpeg',
+        },
+    },
+    {
+        id: 'song_00005',
+        title: 'Cricket on Mountain Meadows',
+        artist: 'Commercial',
+        tags: ['quiet', 'peace', 'silence'],
+        popularity: 63,
+        audio: {
+            s3_bucket: S3_MUSIC_BUCKET,
+            s3_key: 'cricket-ambience-on-mountain-meadow-ivo-vicic-1-02-00.mp3',
+            mime_type: 'audio/mpeg',
+        },
+    },
+    {
+        id: 'song_00006',
+        title: 'Happy Music Orchestra',
+        artist: 'Commercial',
+        tags: ['happy', 'orchestra'],
+        popularity: 63,
+        audio: {
+            s3_bucket: S3_MUSIC_BUCKET,
+            s3_key: 'happy-background-music-orchestra-loop.mp3',
+            mime_type: 'audio/mpeg',
+        },
+    },
+    {
+        id: 'song_00007',
+        title: 'Pulse Breath With Bells',
+        artist: 'Commercial',
+        tags: ['bells', 'panic'],
+        popularity: 63,
+        audio: {
+            s3_bucket: S3_MUSIC_BUCKET,
+            s3_key: 'pulse-breath-with-bells_version-1.mp3',
+            mime_type: 'audio/mpeg',
+        },
+    },
+    {
+        id: 'song_00008',
+        title: 'Relaxing Ocean Wave',
+        artist: 'Commercial',
+        tags: ['relax', 'calm', 'waves', 'soothing'],
+        popularity: 63,
+        audio: {
+            s3_bucket: S3_MUSIC_BUCKET,
+            s3_key: 'relaxing-ocean-wave.mp3',
             mime_type: 'audio/mpeg',
         },
     },
