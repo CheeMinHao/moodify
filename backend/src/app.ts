@@ -26,11 +26,11 @@ app.use(express.json());
 app.use('/api', apiRoutes);
 
 app.get('/', (_req: any, res: any) => {
-  res.json({
-    message: 'API is running',
-    docs: '/api-docs',
-    health: '/health',
-  });
+    res.json({
+        message: 'API is running',
+        docs: '/api-docs',
+        health: '/health',
+    });
 });
 
 app.get('/health', (req: any, res: any) => {
