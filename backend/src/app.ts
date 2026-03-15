@@ -3,6 +3,7 @@ const apiRoutes = require('./routes/api.routes');
 import { env } from './config/env';
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
+import path from 'path';
 
 const app = express();
 
@@ -15,7 +16,7 @@ const swaggerOptions = {
             description: 'A sample Express.js API built with TypeScript and Swagger',
         },
     },
-    apis: ['./src/routes/*.ts'],
+    apis: [path.join(__dirname, './routes/*.ts'), path.join(__dirname, './controllers/*.ts')],
 };
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
@@ -23,6 +24,14 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(express.json());
 
 app.use('/api', apiRoutes);
+
+app.get('/', (_req: any, res: any) => {
+    res.json({
+        message: 'API is running',
+        docs: '/api-docs',
+        health: '/health',
+    });
+});
 
 app.get('/health', (req: any, res: any) => {
     res.json({ status: 'ok' });
