@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Animated,
-  ScrollView,
   Modal,
   ScrollView,
 } from 'react-native';
@@ -103,7 +102,7 @@ export default function PlayerScreen() {
         style={[styles.bgGlow, { backgroundColor: track.color }]}
       />
 
-      <View style={[styles.container, { paddingTop: insets.top }]}>
+      <View style={[styles.container, { paddingTop: insets.top }]}/>
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
@@ -234,6 +233,7 @@ export default function PlayerScreen() {
         </View>
       </ScrollView>
     </LinearGradient>
+    
   );
 }
 
@@ -252,7 +252,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: Theme.spacing.xl,
     justifyContent: 'center',
-    justifyContent: 'space-between',  
   },
   backBtn: {
     alignSelf: 'flex-start',

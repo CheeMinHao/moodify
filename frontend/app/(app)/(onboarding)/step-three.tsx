@@ -9,7 +9,6 @@ import { Theme } from '@/constants/theme';
 import { useNotifications } from '@/hooks/use-notifications';
 import { useAuth } from '@/context/auth';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Platform } from 'react-native';
 
 const AUDIO_PREFS = [
   { id: 'nature', label: 'Nature sounds', emoji: '🌿', desc: 'Rain, ocean, forest' },
