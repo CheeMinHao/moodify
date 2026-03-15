@@ -9,88 +9,19 @@ import { useAuth } from '@/context/auth';
 import { Avatar } from '@/components/ui/Avatar';
 import { uploadImage, getSignedUrl } from '@/lib/media';
 import { supabase } from '@/lib/supabase';
-import { Emotions } from '@/constants/emotions';
+import { useJournalStats } from '@/hooks/use-journal-stats';
 
 export default function ProfileScreen() {
   const { profile, user, signOut, refreshProfile } = useAuth();
-  const [streak, setStreak] = useState(0);
+  const { sessionCount, streak, recentMoods } = useJournalStats();
   const [avatarUri, setAvatarUri] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [sessionCount, setSessionCount] = useState(0);
-  const [recentMoods, setRecentMoods] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (user) fetchJournalStats();
-  }, []);
 
   useEffect(() => {
     if (profile?.avatarS3Key) {
       getSignedUrl(profile.avatarS3Key, 3600).then(setAvatarUri);
     }
   }, [profile?.avatarS3Key]);
-
-  async function fetchJournalStats() {
-    if (!user) return;
-
-    // Total session count
-    const { count } = await supabase
-      .from('journal_entries')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id);
-    setSessionCount(count ?? 0);
-
-    // Recent 5 moods
-    const { data } = await supabase
-      .from('journal_entries')
-      .select('emotion')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(5);
-    if (data) {
-      const emojis = data.map((entry) => {
-        const emotion = Emotions.find((e) => e.id.toLowerCase() === entry.emotion.toLowerCase());
-        return emotion?.emoji ?? '🎵';
-      });
-      setRecentMoods(emojis);
-    }
-
-    // Streak: count consecutive days with entries (including today)
-    const { data: entries } = await supabase
-      .from('journal_entries')
-      .select('created_at')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
-    if (entries && entries.length > 0) {
-      const uniqueDays = [...new Set(
-        entries.map((e) => new Date(e.created_at).toDateString())
-      )];
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const firstDay = new Date(uniqueDays[0]);
-      firstDay.setHours(0, 0, 0, 0);
-
-      // Streak only counts if the most recent entry is today or yesterday
-      const diffFromToday = Math.floor((today.getTime() - firstDay.getTime()) / (1000 * 60 * 60 * 24));
-      if (diffFromToday > 1) {
-        setStreak(0);
-      } else {
-        let consecutive = 1;
-        for (let i = 1; i < uniqueDays.length; i++) {
-          const curr = new Date(uniqueDays[i - 1]);
-          const prev = new Date(uniqueDays[i]);
-          curr.setHours(0, 0, 0, 0);
-          prev.setHours(0, 0, 0, 0);
-          const diff = Math.floor((curr.getTime() - prev.getTime()) / (1000 * 60 * 60 * 24));
-          if (diff === 1) {
-            consecutive++;
-          } else {
-            break;
-          }
-        }
-        setStreak(consecutive);
-      }
-    }
-  }
 
   async function handleSignOut() {
     await signOut();

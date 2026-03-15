@@ -30,15 +30,17 @@ export default function JournalDateScreen() {
   async function fetchEntries() {
     if (!user || !date) return;
 
-    const startOfDay = `${date}T00:00:00.000Z`;
-    const endOfDay = `${date}T23:59:59.999Z`;
+    // Build local start/end of day, then convert to ISO for the query
+    const [y, m, d] = date.split('-').map(Number);
+    const localStart = new Date(y, m - 1, d, 0, 0, 0, 0);
+    const localEnd = new Date(y, m - 1, d, 23, 59, 59, 999);
 
     const { data } = await supabase
       .from('journal_entries')
       .select('id, emotion, note, recommended_track_id, created_at')
       .eq('user_id', user.id)
-      .gte('created_at', startOfDay)
-      .lte('created_at', endOfDay)
+      .gte('created_at', localStart.toISOString())
+      .lte('created_at', localEnd.toISOString())
       .order('created_at', { ascending: true });
 
     setEntries(data ?? []);

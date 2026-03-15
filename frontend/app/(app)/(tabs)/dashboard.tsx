@@ -24,6 +24,7 @@ import { Theme } from "@/constants/theme";
 import { Emotions, Emotion, EmotionTagMap } from "@/constants/emotions";
 import { Tracks } from "@/constants/tracks";
 import { getRecommendation, generateEmotionParagraph, Song } from "@/lib/api";
+import { invalidateJournalStats } from "@/hooks/use-journal-stats";
 
 function getGreeting(): string {
   const h = new Date().getHours();
@@ -179,6 +180,8 @@ export default function DashboardScreen() {
       setGeneratingMsg(false);
       return;
     }
+
+    invalidateJournalStats();
 
     // Generate emotion paragraph if user wrote a note
     let emotionMessage = '';
