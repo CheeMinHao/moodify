@@ -16,10 +16,7 @@ const swaggerOptions = {
             description: 'A sample Express.js API built with TypeScript and Swagger',
         },
     },
-    apis: [
-        path.join(__dirname, './routes/*.ts'),
-        path.join(__dirname, './controllers/*.ts'),
-    ],
+    apis: [path.join(__dirname, './routes/*.ts'), path.join(__dirname, './controllers/*.ts')],
 };
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
